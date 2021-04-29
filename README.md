@@ -20,6 +20,7 @@ We want to understand everything fandom-related, especially the fanfictions!
 - Writing styles
   - Is the vocabulary rich? Would it be considered "well-written" in a common sense? What is the literature value?
   - what makes a fanfiction good? is there lietrature evidance we can find?
+  - author identification
  
 - Recommend similar content
   - finding out similar fanfictions in terms of sentiment/writing styles/vocabulary usage/fandoms
