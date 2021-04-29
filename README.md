@@ -1,20 +1,38 @@
 # Deep Learning Fandom Wizard
 
-This project has the aim of bringing NLP and Deep Leaning to the Fandom community.
-
+This project brings NLP and Deep Leaning to the Fandom community.
 We want to understand everything fandom-related, especially the fanfictions!
 
+## BASE method
+
+- Data source: AO3
+
+- fundation: word embeddings
+  - pre-trained on numberbatch
 
 ## Feature: Fanfiction Digestion
 
-1. Auto-classifying
-  - is this fanfic romantic? PG-13? angst or fluff?
-2. Writing styles analysis
+- First step: fanfiction classifying
+  - ratings/fandoms/tags prediction
+  - MLP
+  - sentiment classifying
+
+- Writing styles
   - Is the vocabulary rich? Would it be considered "well-written" in a common sense? What is the literature value?
-3. Recommend similar content
-  - Give us a good fanfic you read recently, we will recommend something that is similar to it. It could be of similar sentiment, style, fandom, or pairing
-4. Compile music playlist
+  - what makes a fanfiction good? is there lietrature evidance we can find?
+ 
+- Recommend similar content
+  - finding out similar fanfictions in terms of sentiment/writing styles/vocabulary usage/fandoms
+
+- Compile music playlist
   - Give us a fanfic, we will compile a Spotify playlist
+  - Lyrics and Audio both match the fanfics
+
+## Analysis
+
+- What are the differences between fandoms in terms of fanfics?
+- Differences between pairings?
+- Sexual content is prevailing in the fandom community, what information can we extract from it?
 
 ## What do we need from the community?
 
