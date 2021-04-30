@@ -1,46 +1,49 @@
 # Deep Learning Fandom Wizard
 
-This project brings NLP and Deep Leaning to the Fandom community.
-We want to understand everything fandom-related, especially the fanfictions!
+**This project brings NLP and Deep Leaning to the Fandom community.**
+
+**In the future, we want to revolunize how users interact with fandom-related platforms and bring them a personalized experience using the latest AI, while also deepening meaningful interactions between community members.**
 
 ## BASE method
 
 - Data source: AO3
 
-- fundation: word embeddings
-  - pre-trained on numberbatch
+neural network fundation: 
+- word embeddings
+  - pre-trained on `conceptNet numberbatch` (https://github.com/commonsense/conceptnet-numberbatch)
+- RNN (GRU/LSTM) for sequence sentiment analysis
+- MLP: a simpler solution for now
 
 ## Feature: Fanfiction Digestion
 
 - First step: fanfiction classifying
-  - ratings/fandoms/tags prediction
-  - MLP
+  - ratings/fandoms/tags prediction (with MLP)
   - sentiment classifying
 
 - Writing styles
   - Is the vocabulary rich? Would it be considered "well-written" in a common sense? What is the literature value?
-  - what makes a fanfiction good? is there lietrature evidance we can find?
-  - author identification
+  - what makes a fanfiction good (e.g. receive a lot of kudos)? is there lietrature evidance we can find?
+  - author identification (can we recognize the writing styles of some of the prolific authors in the community?)
  
 - Recommend similar content
   - finding out similar fanfictions in terms of sentiment/writing styles/vocabulary usage/fandoms
+  - in the future, we will also add *user-user* and *user-item* recommendation system
 
 - Compile music playlist
-  - Give us a fanfic, we will compile a Spotify playlist
-  - Lyrics and Audio both match the fanfics
+  - Give us a fanfic, we will compile a Spotify playlist, with Lyrics and Audio both match the fanfics
+  - Are there artists that specifically macth a fandom (e.g. Glass Animals for mcyt)
 
 ## Analysis
 
-- What are the differences between fandoms in terms of fanfics?
-- Differences between pairings?
+- What differences are there between fanfics from different fandoms? Differences between pairings?
 - Sexual content is prevailing in the fandom community, what information can we extract from it?
+- `Fluff/Angst/Smut` are some traditional tags people use, can we make any other archtypes that offer more varieties? 
 
 ## What do we need from the community?
 
-1. Provide us with more data!
-2. Provide feedbacks!
+1. Provide us with more data (fill out these Google forms we have)!
+2. Provide feedbacks on our beta website!
 3. Suggest more features!
-
 
 *Next step:*
 
