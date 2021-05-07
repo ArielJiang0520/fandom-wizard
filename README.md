@@ -2,16 +2,17 @@
 
 **This project brings NLP and Deep Leaning to the Fandom community.**
 
-**In the future, we want to revolunize how users interact with fandom-related platforms and bring them a personalized experience using the latest AI, while also deepening meaningful interactions between community members.**
+**We want to change how users interact with fandom-related platforms and bring them a personalized experience using the latest AI, while also deepening meaningful interactions between fandom communities.**
 
 ## BASE method
 
-- Data source: AO3
+Data source: AO3
 
 neural network fundation: 
 - word embeddings
   - pre-trained on `conceptNet numberbatch` (https://github.com/commonsense/conceptnet-numberbatch)
-- RNN (GRU/LSTM) for sequence sentiment analysis
+  - contextual embeddings in the future
+- RNN for sentiment analysis?
 - MLP: a simpler solution for now
 
 ## Feature: Fanfiction Digestion
@@ -32,18 +33,22 @@ neural network fundation:
 - Compile music playlist
   - Give us a fanfic, we will compile a Spotify playlist, with Lyrics and Audio both match the fanfics
   - Are there artists that specifically macth a fandom (e.g. Glass Animals for mcyt)
+  - Demo (live version): https://fanfic-playlist.herokuapp.com/
 
 ## Analysis
 
-- What differences are there between fanfics from different fandoms? Differences between pairings?
-- Sexual content is prevailing in the fandom community, what information can we extract from it?
+- Differences between fanfics from different fandoms? Differences between pairings?
+- Sexual content is prevailing, what information can we extract from it?
 - `Fluff/Angst/Smut` are some traditional tags people use, can we make any other archtypes that offer more varieties? 
 
 ## What do we need from the community?
 
 1. Provide us with more data (fill out these Google forms we have)!
+ - link to Google form:
 2. Provide feedbacks on our beta website!
+ - TODO: need feedback button (need a twitter account)
 3. Suggest more features!
+ - link to Google form:
 
 *Next step:*
 
