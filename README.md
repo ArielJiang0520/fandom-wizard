@@ -11,11 +11,17 @@ Data source: AO3
 neural network fundation: 
 - word embeddings
   - pre-trained on `conceptNet numberbatch` (https://github.com/commonsense/conceptnet-numberbatch)
-  - contextual embeddings in the future
+  - contextual embeddings in the future (BERT from hugging face)
 - RNN for sentiment analysis?
 - MLP: a simpler solution for now
 
-## Feature: Fanfiction Digestion
+## Product Display: Fanfiction Pinterest
+
+- the display of this product would be a web page minicing Pinterest. Users can save and upload fanfictions, their feed will be refreshed based on the content they liked
+- Each fanfiction uploaded contains "text", "tags", "fandom", "pairing", "rating", internally they will be fed through a word embedding (BERT)
+- 
+
+## Core Features: Fanfiction Digestion
 
 - First step: fanfiction classifying
   - ratings/fandoms/tags prediction (with MLP)
