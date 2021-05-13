@@ -11,7 +11,7 @@ Data source: AO3
 neural network fundation: 
 - word embeddings
   - pre-trained on `conceptNet numberbatch` (https://github.com/commonsense/conceptnet-numberbatch)
-  - contextual embeddings in the future (BERT from hugging face)
+  - contextual embeddings in the future (BERT from huggingface)
 - RNN for sentiment analysis?
 - MLP: a simpler solution for now
 
@@ -19,7 +19,10 @@ neural network fundation:
 
 - the display of this product would be a web page minicing Pinterest. Users can save and upload fanfictions, their feed will be refreshed based on the content they liked
 - Each fanfiction uploaded contains "text", "tags", "fandom", "pairing", "rating", internally they will be fed through a word embedding (BERT)
-- 
+- use case 1: given a "query", find similar fanfics
+  - how?
+- use case 2: find similar fanfics to the existing fanfics
+  - each fanfic will just be a vector? or they are some tags assocaited with them?
 
 ## Core Features: Fanfiction Digestion
 
