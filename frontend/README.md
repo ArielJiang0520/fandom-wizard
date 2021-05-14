@@ -1,6 +1,7 @@
 ## 💻 Front End 💻 (+ some backend stuff that is not ML-related)
 
 **💎 Framework**: React + Flask API
+
 **☁️ Deployment**: AWS
 
 ### 🤔 Need to be taken care of

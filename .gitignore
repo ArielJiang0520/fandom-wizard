@@ -1,3 +1,11 @@
+*.p
+*.npy
+*.npz
+model/data
+model/text
+model/matrix
+/.vscode
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
