@@ -42,12 +42,13 @@ Recall your favorite fanfic (a fanfic/book you finished reading and couldn't get
   - well, most people read a fanfic in the first place because of the pairing/fandom. but if they just want same **pairing/fandom**, they could just do a AO3 search. so what could our app provides that AO3/normal search engine can not
   - Personally, I want to see a fanfic with similar writing styles. Okay, what do you mean by "writing style"?
     1. The use of **vocabulary** (rare words v.s. common words)
-    2. Writing skill, **grammar** (complicated, polished grammar v.s. normal grammer, even with some wrong grammar)
-    3. **Narration styles** (both fanfics can be good, but they could be presented with very different styles)
+      - more in `rare words explore.ipynb` in this directory (5/13/21)
+    3. Writing skill, **grammar** (complicated, polished grammar v.s. normal grammer, even with some wrong grammar)
+    4. **Narration styles** (both fanfics can be good, but they could be presented with very different styles)
       - in classic literature, this difference be observed through authors from different eras
-    4. Theme & plot. Obviously exact plot match is not possible, but can we capture the **progression of the story**, or the themes? (slow burn, friends to lovers, rough start but happy ending, enemies to lovers, etc.)
+    5. Theme & plot. Obviously exact plot match is not possible, but can we capture the **progression of the story**, or the themes? (slow burn, friends to lovers, rough start but happy ending, enemies to lovers, etc.)
       - progression information needs sequential model to encode
-    5. **mood/tone**. This is very vague, and can also be tied back to "themes". But I'm more thinking of like overall "sad", "light-hearted", "heavy", "serious", "humorous", etc.
-    6. other **matadata**, for example, is it about sex (R-18) or not? is it F/F or M/M or F/M? What's the general story setting (mordern, historical era, sci-fi, etc.)
+    6. **mood/tone**. This is very vague, and can also be tied back to "themes". But I'm more thinking of like overall "sad", "light-hearted", "heavy", "serious", "humorous", etc.
+    7. other **matadata**, for example, is it about sex (R-18) or not? is it F/F or M/M or F/M? What's the general story setting (mordern, historical era, sci-fi, etc.)
 
 
