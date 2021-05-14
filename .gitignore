@@ -4,6 +4,7 @@
 model/data
 model/text
 model/matrix
+model/corpus
 /.vscode
 
 # Byte-compiled / optimized / DLL files

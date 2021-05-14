@@ -35,6 +35,7 @@ what info do we have?
 - **feature extraction**: what is it that you want to extract from a fanfic? We already have the matadata (fandoms/tags/pairings etc.), so we are trying to extract underlying features from the **text**. What could **text** tell you that matadata can not?
 
 **❓❓❓questions to ask anyone❓❓❓**
+
 (the problem ultimately needs social opinons to solve; in this space, let's not care about technical feasibility)
 
 Recall your favorite fanfic (a fanfic/book you finished reading and couldn't get enough of it), you probably want to read something similar to it, right? What are you looking for?
