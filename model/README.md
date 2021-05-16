@@ -32,9 +32,19 @@ what info do we have?
 
 - **unlabeled data**: is it really a challenge? frankly, this is what our entire project is built around -- labeling fanfics in our own way. Even more, it might be a *leverage* we can use to build the best available system and prove our tech novelty.
   - Many algorithms available for **unsupuervised learning** -- self-learning, semi-supervised, etc.
-  - What about **topic modeling** (LDA)?
   - What exactly is it that we are trying to label? Do we just want grouping (clustering) instead? Would that be too hard? (not enough evidence)
 - **feature extraction**: what is it that you want to extract from a fanfic? We already have the matadata (fandoms/tags/pairings etc.), so we are trying to extract underlying features from the **text**. What could **text** tell you that matadata can not?
+
+**💡Query Parsing**
+
+Example query: `give me a fanfic that's in the Hannibal fandom. Dark, twisted, romantic, murder husbands, etc.`
+
+Example query: `I want to read about Dream and George, in real life setting, hurt/comfort`
+
+heuristics:
+  1. extract character name, fandom, pairings, etc. then do TFIDF search for these matadata
+  2. extract tags (non-AO3 conformed)
+  3. extract freeforms (word embedded search)
 
 **❓❓❓questions to ask anyone❓❓❓**
 
@@ -61,8 +71,9 @@ Recall your favorite fanfic (a fanfic/book you finished reading and couldn't get
       - in fact having three fixed categories `{romance, sexual, sad}` somehow performs better in terms of understanding the overall tone of a fanfic -- because when you think of it, the AO3 tags themselves are not pretty good indicator of the story
     5. other **matadata**, for example, is it about sex (R-18) or not? is it F/F or M/M or F/M? What's the general story setting (mordern, historical era, sci-fi, etc.)
     6. **fandom** similarity, for example, "Marvel Universe" readers are probably more likely to want to read something US cinema/superhero related? at least you wouldn't recommend anime for them, right?
+    - this is done through `IMDB` database
 
-**🙅‍♀️Error Analysis🙅‍♀️**
+**🙅‍♀️Error Analysis‍**
 
 (These are some pretty difficulty/confusing cases that the model can get wrong)
 
