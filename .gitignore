@@ -1,4 +1,3 @@
-*.p
 *.npy
 *.npz
 model/data
