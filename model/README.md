@@ -69,6 +69,7 @@ Recall your favorite fanfic (a fanfic/book you finished reading and couldn't get
       - this is a sentiment classification problem, but our data is only "weakly labeled". I did a MLP going from input size (BERT `hid_dim`) to class size (restricted to top ~50 tags), getting the `softmax` layer as a vector representation of the doc. The accuracy is okay if you just want to predict the tag of the fanfic, but for some reason it doesn't add much to the word embeddings similarity score
       - adding `class_weights` in the classifier help with clearing the noise (too many fanfics being marked as `angst`)
       - in fact having three fixed categories `{romance, sexual, sad}` somehow performs better in terms of understanding the overall tone of a fanfic -- because when you think of it, the AO3 tags themselves are not pretty good indicator of the story
+      - what if you do reverse? one-hot tags -> embeddings, task is to
     5. other **matadata**, for example, is it about sex (R-18) or not? is it F/F or M/M or F/M? What's the general story setting (mordern, historical era, sci-fi, etc.)
     6. **fandom** similarity, for example, "Marvel Universe" readers are probably more likely to want to read something US cinema/superhero related? at least you wouldn't recommend anime for them, right?
     - this is done through `IMDB` database

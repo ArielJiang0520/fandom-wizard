@@ -1,7 +1,7 @@
 import pickle
 from sys import getsizeof
 
-data_path = 'data/ao3_30k.p'
+data_path = 'data/ao3_ver1_full.p'
 df = pickle.load(open(data_path, 'rb'))
 
 mask = df['text'].str.len() > 1000
