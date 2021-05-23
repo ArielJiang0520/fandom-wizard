@@ -1,15 +1,12 @@
 from flask import Blueprint, request
+ao3 = Blueprint('ao3', __name__)
+
 from database.db import db
 from database.models import AO3, AO3Schema
-
-ao3 = Blueprint('ao3', __name__)
 ao3_schema = AO3Schema()
 
-from . import dataloader
-import os
-
-curr_file_path = os.path.dirname(os.path.realpath(__file__))
-E = dataloader.load_matrix(os.path.join(curr_file_path, 'matrix'))
+from database.embed import read_embed_matrix
+E = read_embed_matrix(db, AO3)
 
 from . import compute
 

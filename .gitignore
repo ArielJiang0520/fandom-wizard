@@ -4,6 +4,9 @@ model/matrix
 model/corpus
 /.vscode
 
+backend/database/cache/
+*.npy
+*.npz
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
