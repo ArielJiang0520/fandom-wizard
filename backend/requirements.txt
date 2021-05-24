@@ -120,3 +120,4 @@ flask==2.0.1
 flask-sqlalchemy==2.5.1
 Flask-Migrate==3.0.0
 marshmallow-sqlalchemy==0.25.0
+transformers==4.6.1
