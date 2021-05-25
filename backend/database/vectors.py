@@ -9,7 +9,6 @@ if not os.path.exists(os.path.join(curr_path, 'cache')):
     except PermissionError:
         print('No cache folder found and no permission to make cache folder')
 
-
 def read_embed_matrix(db, table, hard_refresh=False):
     if hard_refresh:
         print('Forced re-parsing embed from db')
@@ -22,8 +21,9 @@ def read_embed_matrix(db, table, hard_refresh=False):
             E = np.load(os.path.join(cache_path, 'E.npy'))
             T = np.load(os.path.join(cache_path, 'T.npy'))
             C = np.load(os.path.join(cache_path, 'C.npy'))
+            S = np.load(os.path.join(cache_path, 'S.npy'))
 
-            return E, T, C
+            return E, T, C, S
 
         except FileNotFoundError:
             print('Missing a cache file. Making new ones instead.')
@@ -58,6 +58,16 @@ def read_embed_matrix(db, table, hard_refresh=False):
     print(f'C shape: {C.shape}. system memory usage: {sys.getsizeof(C) * 1e-6:.2f}')
     np.save(os.path.join(cache_path, 'C.npy'), C)
 
+    S = np.array(
+        [np.array([float(e) for e in res.sentiment.lstrip('[').rstrip(']').split(',')], 
+            dtype=np.float32) for res in results], 
+    )
+
+    print(f'S shape: {S.shape}. system memory usage: {sys.getsizeof(S) * 1e-6:.2f}')
+    np.save(os.path.join(cache_path, 'S.npy'), S)
+
+    assert E.shape[0] == T.shape[0] == C.shape[0] == S.shape[0], 'fatal error: matrices dimensions do not match'
+
     print('all matrix cached to local')
 
-    return E, T, C
+    return E, T, C, S

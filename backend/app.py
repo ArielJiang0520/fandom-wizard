@@ -10,9 +10,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 with app.app_context():
     db.init_app(app)
     db.create_all()
-    # from database.models import AO3
-    from resources.ao3 import ao3
-    app.register_blueprint(ao3)
+    from resources.fanfic import fanfic_bp
+    app.register_blueprint(fanfic_bp)
 
 
 if __name__ == '__main__':

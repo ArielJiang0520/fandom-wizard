@@ -3,29 +3,55 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import time
 import torch
+import pickle
 
 import nltk
-nltk.download('punkt')
+nltk.download('punkt', quiet=True)
 from nltk.tokenize import sent_tokenize
 
 from transformers import AutoTokenizer, AutoModel
 
-tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/paraphrase-MiniLM-L6-v2")
-bert_model = AutoModel.from_pretrained("sentence-transformers/paraphrase-MiniLM-L6-v2")
-bert_dim = bert_model.config.hidden_size
+BERT_TOKENIZER = AutoTokenizer.from_pretrained("sentence-transformers/paraphrase-MiniLM-L6-v2")
+BERT_MODEL = AutoModel.from_pretrained("sentence-transformers/paraphrase-MiniLM-L6-v2")
+
+tiny_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'tiny')
+CLFS = [
+    pickle.load(open(os.path.join(tiny_path, 'sexual.clf'), 'rb')),
+    pickle.load(open(os.path.join(tiny_path, 'romance.clf'), 'rb')),
+    pickle.load(open(os.path.join(tiny_path, 'tone.clf'), 'rb'))
+]
 
 ### public methods
 
-def index_KNN(matrix, index, k):
-    return np.argsort(-cosine_similarity(matrix, matrix[index].reshape(1, -1)).flatten())[:k].tolist()
+def index_KNN(matrices, poi, k):
+    alpha, beta, gamma, delta = 1, 0.25, 0.5, 0.5
 
-def input_KNN(matrix, input, k):
-    embedded_input = embed_doc_bert(input, bert_model, tokenizer)
-    return np.argsort(-cosine_similarity(matrix, embedded_input.reshape(1, -1)).flatten())[:k].tolist()
+    E, T, C, S = matrices
+
+    es = cosine_similarity(E, E[poi].reshape(1, -1)).flatten()
+    cs = cosine_similarity(C, C[poi].reshape(1, -1)).flatten()
+    ts = cosine_similarity(T, T[poi].reshape(1, -1)).flatten()
+    ss = cosine_similarity(S, S[poi].reshape(1, -1)).flatten()
+
+    final = alpha * es + beta * cs + gamma * ts + delta * ss
+
+    return np.argsort(-final)[1:k+1].tolist()
+
+def input_KNN(matrices, input, k):
+    E, S = matrices
+    embedded_input = _embed_doc_bert(input, BERT_MODEL, BERT_TOKENIZER)
+    clf_logits = _models_logit(embedded_input, CLFS)
+
+    es = cosine_similarity(E, embedded_input.reshape(1, -1)).flatten()
+    ss = cosine_similarity(S, clf_logits.reshape(1, -1)).flatten()
+
+    final = es + ss * 0.25
+
+    return np.argsort(-final).flatten()[:k].tolist()
     
 ### private methods
 
-def mean_pooling(model_output, attention_mask):
+def _mean_pooling(model_output, attention_mask):
     token_embeddings = model_output[0]
     input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
     sum_embeddings = torch.sum(token_embeddings * input_mask_expanded, 1)
@@ -33,7 +59,7 @@ def mean_pooling(model_output, attention_mask):
 
     return sum_embeddings / sum_mask
 
-def bert(sents, model, tokenizer, max_len=128):
+def _bert(sents, model, tokenizer, max_len=128):
     encoded_input = tokenizer(
         sents, padding=True, truncation=True, 
         max_length=max_len, return_tensors='pt'
@@ -42,17 +68,24 @@ def bert(sents, model, tokenizer, max_len=128):
     model.eval()
     with torch.no_grad():
         model_output = model.forward(**encoded_input)
-    return mean_pooling(model_output, encoded_input['attention_mask'])
+    return _mean_pooling(model_output, encoded_input['attention_mask'])
 
-def embed_doc_bert(doc, model, tokenizer):
-    vec = bert(sent_tokenize(doc), model, tokenizer).detach().numpy()
+def _embed_doc_bert(doc, model, tokenizer):
+    vec = _bert(sent_tokenize(doc), model, tokenizer).detach().numpy()
     return np.mean(vec, axis=0)
 
+def _models_logit(input_, models):
+    input_ = input_.reshape(1, -1)
+    vec = []
+    for model in models:
+        vec.append(model.predict_proba(input_))
+    
+    return np.concatenate(vec, axis=1).reshape(-1,)[[1,3,5]]
 
 if __name__ == '__main__':
     sample_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'sample.txt')
     text = open(sample_path, 'r+', encoding='utf-8').read()
 
     start = time.time()
-    q = embed_doc_bert(text, bert_model, tokenizer) # 2.8s
+    q = _embed_doc_bert(text, BERT_MODEL, BERT_TOKENIZER) # 2.8s
     print(time.time() - start)

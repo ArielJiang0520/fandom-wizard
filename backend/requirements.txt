@@ -85,13 +85,12 @@ rake-nltk==1.0.4
 regex==2020.11.13
 rsa==4.7
 s3transfer==0.3.4
-scikit-learn==0.24.2
+scikit-learn==0.22.2.post1
 scipy==1.6.3
 selenium==3.141.0
 Send2Trash==1.5.0
 setuptools==52.0.0.post20210125
 six==1.16.0
-sklearn
 sympy==1.4
 terminado==0.9.5
 testpath==0.4.4
@@ -121,3 +120,5 @@ flask-sqlalchemy==2.5.1
 Flask-Migrate==3.0.0
 marshmallow-sqlalchemy==0.25.0
 transformers==4.6.1
+flask-restful==0.3.9
+flask-restplus==0.13.0
