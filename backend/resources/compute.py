@@ -19,11 +19,13 @@ logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=lo
 
 ## global
 
+K = 50
+
 from database.db import db
 from database.matrix import read_embed_matrix, read_word2vec_table
 from database.models import MatrixTable, Word2vecTable
 
-E, T, C, S = read_embed_matrix(db, MatrixTable, hard_refresh=False) # Turn this to true if you just pulled it
+E, T, C, S = read_embed_matrix(db, MatrixTable, hard_refresh=False)
 W2V = read_word2vec_table(db, Word2vecTable)
 
 DB_SIZE = E.shape[0]
@@ -76,7 +78,7 @@ def index_KNN(poi):
 
     final = alpha * es + beta * cs + gamma * ts + delta * ss
 
-    return np.argsort(-final)[1:51].tolist()
+    return np.argsort(-final)[1:K+1].tolist()
 
 def input_KNN(input):
     alpha, beta = 1, 0.33
@@ -89,10 +91,34 @@ def input_KNN(input):
 
     final = alpha * es + beta * ss
 
-    return np.argsort(-final)[:50].tolist()
+    return np.argsort(-final)[:K].tolist()
 
 def fandom_KNN(fandom):
-    return Fandom_df.loc[Fandom_df['ao3_parsed_name'] == fandom]['ao3_name'].values.tolist()
+    fandom_entries = Fandom_df.loc[Fandom_df['ao3_parsed_name'] == fandom]
+
+    if len(fandom_entries) == 0:
+        return [], False
+
+    total_count = sum(fandom_entries['count'].values)
+    if total_count >= K:
+        logging.info(f'Fandom {fandom} has enough return results ({total_count})')
+        return fandom_entries['ao3_name'].values.tolist(), True
+    
+    else:
+        logging.info(f'Fandom {fandom} does not have enough return results ({total_count})')
+
+        f_ix = fandom_entries.index.values[0]
+        fs = cosine_similarity(F, F[f_ix].reshape(1,-1)).flatten()
+        output = [Fandom_df.iloc[f_ix]['ao3_name']]
+        for sub_f_ix in np.argsort(-fs):
+            output.append(Fandom_df.iloc[sub_f_ix]['ao3_name'])
+            total_count += Fandom_df.iloc[sub_f_ix]['count']
+            if total_count >= K:
+                break
+        
+        logging.info(f'Used {output} as substitues results')
+
+        return output, False
 
 def query_KNN(queries):
     alpha, beta = 1, 1
@@ -101,9 +127,11 @@ def query_KNN(queries):
     
     if chars != '' or rls != '':
         chars = chars.split(',') if chars != '' else []
-        # logging.info(f'Parsed chars: {chars}')
+        logging.info(f'Parsed chars: {chars}')
+
         rls = [tuple(cp.split('/')) for cp in rls.split(',')] if chars != '' else []
-        # logging.info(f'Parsed rls: {rls}')
+        logging.info(f'Parsed rls: {rls}')
+
         char_and_cp_embed = _embed_char_and_cp(chars, rls, W2V)
         cs = cosine_similarity(C, char_and_cp_embed.reshape(1,-1)).flatten()
     else:
@@ -117,7 +145,7 @@ def query_KNN(queries):
 
     final = alpha * cs + beta * ts
 
-    return np.argsort(-final)[:50].tolist()
+    return np.argsort(-final)[:K].tolist()
     
 
 ### private methods

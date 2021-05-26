@@ -15,43 +15,48 @@ from . import compute
 import logging
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
+index_parser = reqparse.RequestParser(bundle_errors=True)
+index_parser.add_argument('return_sim', type=int, required=True, location='args')
+
 class FanficDatabase(Resource):
     def get(self, index):
         if index > compute.DB_SIZE - 1:
-            return 400, 'index exceeds the current database size'
+            return {'message': 'index exceeds the current database size'}, 400
 
-        similar_idxes = compute.index_KNN(index)
-        rankings = {n + 1 : None for n in range(len(similar_idxes))}
-
-        for n, other_index in enumerate(similar_idxes):
-            similar_fic = db.session.get(AO3Table, other_index)
-            rankings[n + 1] = ao3_schema.dump(similar_fic)
-
+        args = index_parser.parse_args()
         main_fanfic = db.session.get(AO3Table, index)
+
+        if args.return_sim == 1:
+            similar_idxes = compute.index_KNN(index)
+            rankings = {n + 1 : None for n in range(len(similar_idxes))}
+
+            for n, other_index in enumerate(similar_idxes):
+                similar_fic = db.session.get(AO3Table, other_index)
+                rankings[n + 1] = ao3_schema.dump(similar_fic)
+        else:
+            rankings = {}
 
         return {
             'main': ao3_schema.dump(main_fanfic),
             'similar': rankings
         }
 
+query_parser = reqparse.RequestParser(bundle_errors=True)
 
-parser = reqparse.RequestParser(bundle_errors=True)
+query_parser.add_argument('user_input', type=str, default='', location='form')
 
-parser.add_argument('user_input', type=str, default='', location='form')
+query_parser.add_argument('fandom', type=str, default='', location='form')
 
-parser.add_argument('fandom', type=str, default='', location='form')
-
-parser.add_argument('characters', type=str, default='', location='form')
-parser.add_argument('relationships', type=str, default='', location='form')
-parser.add_argument('tags', type=str, default='', location='form')
-
+query_parser.add_argument('characters', type=str, default='', location='form')
+query_parser.add_argument('relationships', type=str, default='', location='form')
+query_parser.add_argument('tags', type=str, default='', location='form')
 
 class FanficQuery(Resource):
     def get(self):
-        args = parser.parse_args()
+        args = query_parser.parse_args()
 
-        # sanity check
-        if not (args.user_input or args.fandom or args.characters or args.relationships or args.tags):
+        if not (args.user_input or args.fandom or \
+            args.characters or args.relationships or args.tags):
             return {'message': 'no argument'}, 400 
 
         if args.user_input != '':
@@ -66,21 +71,26 @@ class FanficQuery(Resource):
             return rankings, 200
 
         elif args.fandom != '':
-            ao3_fandom_names = compute.fandom_KNN(args.fandom)
+            ao3_fandom_names, use_sort = compute.fandom_KNN(args.fandom)
             if not ao3_fandom_names:
                 return {'message': 'fandom does not exist'}, 400 
 
             rankings = []
+
             conds = tuple([AO3Table.fandoms.contains(f) for f in ao3_fandom_names])
 
-            results = db.session.query(AO3Table).filter(
-                or_(*conds)
-            ).order_by(AO3Table.kudos.desc())
+            if use_sort:
+                results = db.session.query(AO3Table).filter(
+                    or_(*conds)
+                ).order_by(AO3Table.kudos.desc())
+            else:
+                results = []
+                for cond in conds:
+                    results += list(db.session.query(AO3Table)\
+                        .filter(cond).order_by(AO3Table.kudos.desc()))
 
-            for row in results:
+            for row in results[:compute.K]:
                 rankings.append(ao3_schema.dump(row))
-                if len(rankings) >= 500:
-                    break
 
             return {n + 1: fanfic for n, fanfic in enumerate(rankings)}, 200
 
@@ -106,7 +116,7 @@ class FanficMeta(Resource):
             pass
         else:
             return {
-                'message': 'meta type not supported'
+                'message': 'meta type not supported yet'
             }, 400
 
 
