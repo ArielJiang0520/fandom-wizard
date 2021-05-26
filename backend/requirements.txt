@@ -17,12 +17,6 @@ defusedxml==0.7.1
 distlib==0.3.1
 entrypoints==0.3
 filelock==3.0.12
-google-api-core==1.25.1
-google-auth==1.25.0
-google-cloud-core==1.5.0
-google-cloud-speech==2.0.1
-google-cloud-translate==3.0.2
-googleapis-common-protos==1.52.0
 identify==1.5.13
 importlib-metadata==4.0.1
 ipykernel==5.3.4
@@ -110,7 +104,6 @@ webencodings==0.5.1
 wheel==0.36.2
 widgetsnbextension==3.5.1
 wincertstore==0.2
-wordfreq==2.5.0
 zipp==3.4.1
 SQLAlchemy==1.4.15
 greenlet==1.1.0
