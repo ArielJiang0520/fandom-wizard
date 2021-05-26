@@ -1,5 +1,5 @@
 from .db import db
-from sqlalchemy import Column, Integer
+from sqlalchemy import Column, Integer, String
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
 class AO3Table(db.Model):
@@ -32,7 +32,7 @@ class Word2vecTable(db.Model):
         'schema': 'public',
         'autoload_with': db.engine
     }
-    index = Column(Integer, primary_key=True)
+    key = Column(String, primary_key=True)
 
 
 class AO3Schema(SQLAlchemyAutoSchema):

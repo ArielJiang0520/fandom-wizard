@@ -4,6 +4,7 @@ model/matrix
 model/corpus
 /.vscode
 
+backend/database/cache
 *.npy
 *.npz
 
